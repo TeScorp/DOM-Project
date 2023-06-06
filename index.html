@@ -110,6 +110,26 @@ function updateCartItemQuantity(cartItem, increment) {
     updateTotalAmount();
 }
 
+function removeCartItems(cartItem) {
+    const countElement = cartItem.querySelector('.count');
+    const count = parseInt(countElement.textContent);
+
+    if (count > 0) {
+        countElement.textContent = count - 1;
+    }
+
+    cartItem.remove();
+    updateTotalAmount();
+}
+function removeCartItem(cartItem) {
+    const countElement = cartItem.querySelector('.TotalAmount');
+    countElement.textContent = '0';
+
+    cartItem.remove();
+    updateTotalAmount();
+}
+
+
 function removeCartItem(cartItem) {
     cartItem.remove();
     updateTotalAmount();
@@ -120,6 +140,13 @@ function removeAllCartItems() {
         cartItem.remove();
     });
 
+    updateTotalAmount();
+}
+function quantityChanged(cartItem) {
+    var imput = cartItem.target;
+    if (isNaN(imput.value) || imput.value <=0) {
+        imput.value = 1;
+    }
     updateTotalAmount();
 }
 
