@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SHOPPING CART</title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet">
+</head>
+<body>
+   <div class="CartContainer">
+   	   <div class="Header">
+   	   	<h3 class="Heading">SHOPPING CART</h3>
+   	   	<h5 class="Action">REMOVE ALL</h5>
+   	   </div><div class="Cart-Items">
+    <div class="image-box">
+        <img src="images/lenovo.png" style="height: 120px;" />
+    </div>
+    <div class="about">
+        <h1 class="title">LENOVO</h1>
+        <h3 class="subtitle">156 000 XOF</h3>
+    </div>
+    <div class="counter">
+        <div class="btn increment">+</div>
+        <div class="count">0</div>
+        <div class="btn decrement">-</div>
+    </div>
+    <div class="prices">
+        <div class="amount">156 000</div>
+        <div class="remove">REMOVE</div>
+        <a href="#" class="like-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+</svg>
+        </a>
+    </div>
+</div>
+
+<div class="Cart-Items pad">
+    <div class="image-box">
+        <img src="images/dell.png" style="height: 120px;" />
+    </div>
+    <div class="about">
+        <h1 class="title">DELL-XPS</h1>
+        <h3 class="subtitle">150 000 XOF</h3>
+    </div>
+    <div class="counter">
+        <div class="btn increment">+</div>
+        <div class="count">0</div>
+        <div class="btn decrement">-</div>
+    </div>
+    <div class="prices">
+        <div class="amount">150 000</div>
+        <div class="remove">REMOVE</div>
+        <a href="#" class="like-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+</svg>
+        </a>
+    </div>
+</div>
+
+<hr>
+
+<div class="checkout">
+    <div class="total">
+        <div>
+            <div class="Subtotal">TOTAL</div>
+        </div>
+        <div class="total-amount">0 XOF</div>
+    </div>
+</div>
+<script>
+const cartItems = document.querySelectorAll('.Cart-Items');
+const totalAmountElement = document.querySelector('.total-amount');
+const removeAllButton = document.querySelector('.Action');
+
+function updateTotalAmount() {
+    let totalAmount = 0;
+
+    cartItems.forEach((cartItem) => {
+        const subtitleElement = cartItem.querySelector('.subtitle');
+        const countElement = cartItem.querySelector('.count');
+        const amountElement = cartItem.querySelector('.amount');
+
+        const subtitleText = subtitleElement.textContent;
+        const price = parseInt(subtitleText.replace(/\D/g, ''));
+
+        const count = parseInt(countElement.textContent);
+
+        const itemTotal = price * count;
+        totalAmount += itemTotal;
+    });
+
+    totalAmountElement.textContent = totalAmount.toLocaleString('en-US') + ' XOF';
+}
+
+function updateCartItemQuantity(cartItem, increment) {
+    const countElement = cartItem.querySelector('.count');
+    let count = parseInt(countElement.textContent);
+
+    if (increment) {
+        count++;
+    } else {
+        if (count > 0) {
+            count--;
+        }
+    }
+
+    countElement.textContent = count;
+    updateTotalAmount();
+}
+
+function removeCartItem(cartItem) {
+    cartItem.remove();
+    updateTotalAmount();
+}
+
+function removeAllCartItems() {
+    cartItems.forEach((cartItem) => {
+        cartItem.remove();
+    });
+
+    updateTotalAmount();
+}
+
+function toggleLikeButton(likeButton) {
+    likeButton.classList.toggle('liked');
+}
+
+cartItems.forEach((cartItem) => {
+    const incrementButton = cartItem.querySelector('.increment');
+    const decrementButton = cartItem.querySelector('.decrement');
+    const removeButton = cartItem.querySelector('.remove');
+    const likeButton = cartItem.querySelector('.like-btn');
+
+    incrementButton.addEventListener('click', function () {
+        updateCartItemQuantity(cartItem, true);
+    });
+
+    decrementButton.addEventListener('click', function () {
+        updateCartItemQuantity(cartItem, false);
+    });
+
+    removeButton.addEventListener('click', function () {
+        removeCartItem(cartItem);
+    });
+
+    likeButton.addEventListener('click', function () {
+        toggleLikeButton(likeButton);
+    });
+});
+
+removeAllButton.addEventListener('click', function () {
+    removeAllCartItems();
+});
+
+updateTotalAmount();
+</script>
+</body>
+</html>
